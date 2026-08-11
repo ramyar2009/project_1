@@ -1,8 +1,14 @@
-import React from 'react'
-import './Header.css'
-
-export const Header = () => {
+function Header({ search, setSearch }) {
   return (
-    <div className='a'>Header</div>
-  )
+    <header>
+      <input
+        type="text"
+        placeholder="Search products..."
+        value={search}
+        onChange={(e) => setSearch(e.target.value)}
+      />
+    </header>
+  );
 }
+
+export default Header;
