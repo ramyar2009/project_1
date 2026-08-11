@@ -1,15 +1,20 @@
-import { useState } from 'react'
-import './App.css'
-import { Header } from './Header'
+import { useState } from "react";
+import Header from "./Header";
+import Products from "./Products";
 
 function App() {
-  const [count, setCount] = useState(0)
+  const [search, setSearch] = useState("");
 
   return (
     <>
-      <Header/>
+      <Header
+        search={search}
+        setSearch={setSearch}
+      />
+
+      <Products search={search} />
     </>
-  )
+  );
 }
 
-export default App
+export default App;
