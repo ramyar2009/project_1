@@ -6,7 +6,7 @@ function Header({ search, setSearch }) {
 
   return (
     <header>
-
+    <div className='hedtop'>
         <div className="search-box">
           <img className='search-icon' src={searchlcon} alt="search" />
       <input
@@ -17,10 +17,11 @@ function Header({ search, setSearch }) {
       />
         </div>
 
-        <div>
-        <h1>shop</h1>
+        <div className='nameshop'>
+        <h2 className='nametaepe'>shop</h2>
+        <img className='imgshop' src="" alt="img-web" />
       </div>
-
+    </div>
     </header>
   );
 }
