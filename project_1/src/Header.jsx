@@ -1,5 +1,5 @@
 import './Header.css'
-import searchlcon from "../search.png"
+import searchlcon from "./assets/search.png"
 
 
 function Header({ search, setSearch }) {

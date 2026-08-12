@@ -1,9 +1,13 @@
 import { useEffect, useState } from "react";
 import "./Products.css";
 
-function Products({ search, cart, setCart }) {
 
-  const fakeProducts = [
+function Products({ search, cart, setCart }) {
+  if (search === ""){
+    return null;
+  }
+
+const fakeProducts = [
     {
       id: 101,
       name: "iPhone 15 Pro",
@@ -26,6 +30,7 @@ function Products({ search, cart, setCart }) {
       image: "https://picsum.photos/300/200?random=3"
     }
   ];
+
 
   const [products, setProducts] = useState([]);
 

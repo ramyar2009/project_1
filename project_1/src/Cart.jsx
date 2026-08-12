@@ -30,7 +30,7 @@ function Cart({ cart, setCart }) {
             : item
         )
         .filter((item) => item.quantity > 0)
-    );
+      );
   };
 
   const totalPrice = cart.reduce(
@@ -41,10 +41,10 @@ function Cart({ cart, setCart }) {
   return (
     <div className="cart">
 
-      <h1>سبد خرید</h1>
+      <h1>shopping Cart</h1>
 
       {cart.length === 0 ? (
-        <p>سبد خرید خالی است</p>
+        <p>The shopping cart is empty</p>
       ) : (
 
         <>
@@ -105,7 +105,7 @@ function Cart({ cart, setCart }) {
           <div className="cart-bottom">
 
             <div className="cart-total">
-              <span>مجموع:</span>
+              <span>Total:</span>
 
               <strong>
                 {totalPrice.toLocaleString()} USD
