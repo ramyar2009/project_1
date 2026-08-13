@@ -1,4 +1,4 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate, useLocation } from "react-router-dom";
 import { useCart } from "./Cart";
 import './Header.css'
 import searchlcon from "../search.png"
@@ -6,6 +6,18 @@ import searchlcon from "../search.png"
 
 function Header({ search, setSearch }) {
   const { hasNewItem } = useCart();
+  const navigate = useNavigate();
+  const location = useLocation();
+
+  const handleSearchChange = (e) => {
+    const value = e.target.value;
+    setSearch(value);
+
+    // اگر کاربر توی صفحه‌ای غیر از صفحه اصلی سرچ کرد، ببرش صفحه اصلی
+    if (value !== "" && location.pathname !== "/") {
+      navigate("/");
+    }
+  };
 
   return (
     <header>
@@ -16,7 +28,7 @@ function Header({ search, setSearch }) {
         type="text"
         placeholder="Search products..."
         value={search}
-        onChange={(e) => setSearch(e.target.value)}
+        onChange={handleSearchChange}
       />
         </div>
 

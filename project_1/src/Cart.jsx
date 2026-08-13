@@ -1,4 +1,5 @@
 import { createContext, useContext, useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 
 // ۱. Context باید ساخته بشه
 const CartContext = createContext();
@@ -74,6 +75,7 @@ export const useCart = () => useContext(CartContext);
 
 // ۴. کامپوننت صفحه‌ی سبد خرید (همون چیزی که در روت /cart نشون داده میشه)
 export function Cart() {
+  const navigate = useNavigate();
   const {
     cartItems,
     increaseQuantity,
@@ -93,6 +95,9 @@ export function Cart() {
 
   return (
     <div className="cart">
+      <button className="back-button" onClick={() => navigate("/")}>
+        ← 
+      </button>
       <h1>Shopping Cart</h1>
 
       {cartItems.length === 0 ? (

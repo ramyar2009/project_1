@@ -4,6 +4,17 @@ import "./Products.css";
 
 function Products({ search }) {
   const { cartItems, addToCart } = useCart();
+  const [products, setProducts] = useState([]);
+
+  useEffect(() => {
+    async function getProducts() {
+      const response = await fetch("API");
+      const data = await response.json();
+      setProducts(data);
+    }
+    // وقتی API آماده شد این قسمت استفاده می‌شود
+    // getProducts();
+  }, []);
 
   if (search === "") {
     return null;
@@ -32,18 +43,6 @@ function Products({ search }) {
       image: "https://picsum.photos/300/200?random=3"
     }
   ];
-
-  const [products, setProducts] = useState([]);
-
-  useEffect(() => {
-    async function getProducts() {
-      const response = await fetch("API");
-      const data = await response.json();
-      setProducts(data);
-    }
-    // وقتی API آماده شد این قسمت استفاده می‌شود
-    // getProducts();
-  }, []);
 
   const allProducts = [...fakeProducts];
 
