@@ -13,6 +13,7 @@ header{
     height: 16px;
     background-color: #e6e6e6;
     margin: 0 auto;
+     box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
 }
 
 .search-box img {
@@ -36,7 +37,7 @@ header{
 .nameshop{
     position: absolute;
     right: 5px;
-    top: 23px;
+    top: 18px;
     transform: translateY(-50%);
     display: flex;
 }
@@ -54,10 +55,35 @@ header{
     height: 30px;
     margin-left: 30px;
     border-radius: 10px;
+    margin-top: 18px;
 }
 
 .hedtop{
     background-color: #ccc;
     border-bottom: 1px solid rgb(181, 179, 179);
     height: 40px;
+}
+.cart-icon-wrapper {
+  position: absolute;
+  left: 10px;
+  top: 30%;
+  transform: translateY(-50%);
+
+  display: inline-block;
+}
+
+.cart-icon {
+  width: 28px;
+  height: 28px;
+}
+
+.cart-badge {
+  position: absolute;
+  top: -2px;
+  right: -2px;
+  width: 10px;
+  height: 10px;
+  background-color: red;
+  border-radius: 50%;
+  border: 2px solid white;
 }

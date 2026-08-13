@@ -1,8 +1,11 @@
+import { Link } from "react-router-dom";
+import { useCart } from "./Cart";
 import './Header.css'
-import searchlcon from "./assets/search.png"
-
+import searchlcon from "../search.png"
+//import cartIcon from "../cart.png"
 
 function Header({ search, setSearch }) {
+  const { hasNewItem } = useCart();
 
   return (
     <header>
@@ -21,6 +24,11 @@ function Header({ search, setSearch }) {
         <h2 className='nametaepe'>shop</h2>
         <img className='imgshop' src="" alt="img-web" />
       </div>
+
+      <Link to="/cart" className="cart-icon-wrapper">
+        <img className="cart-icon" src="" alt="cart" />
+        {hasNewItem && <span className="cart-badge"></span>}
+      </Link>
     </div>
     </header>
   );

@@ -1,27 +1,26 @@
 import { useState } from "react";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { CartProvider , Cart } from "./Cart";
 import Header from "./Header";
 import Products from "./Products";
-import Cart from "./Cart";
 
 function App() {
   const [search, setSearch] = useState("");
-  const [cart,setCart]= useState([]);
 
   return (
-    <>
-      <Header
-        search={search}
-        setSearch={setSearch}
-      />
+    <CartProvider>
+      <BrowserRouter>
+        <Header search={search} setSearch={setSearch} />
 
-      <Products search={search}
-      cart={cart} 
-      setCart={setCart}/>
-
-      <Cart 
-      cart={cart}
-      setCart={setCart}/>
-    </>
+        <Routes>
+          <Route
+            path="/"
+            element={<Products search={search} />}
+          />
+          <Route path="/cart" element={<Cart />} />
+        </Routes>
+      </BrowserRouter>
+    </CartProvider>
   );
 }
 
