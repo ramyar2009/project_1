@@ -1,5 +1,6 @@
 import { createContext, useContext, useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+import "./Cart.css"
 
 // ۱. Context باید ساخته بشه
 const CartContext = createContext();
@@ -94,11 +95,14 @@ export function Cart() {
   );
 
   return (
-    <div className="cart">
+    <div className="carts">
+
+      <div className="nameclick">
       <button className="back-button" onClick={() => navigate("/")}>
-        ← 
+        ← comeback
       </button>
-      <h1>Shopping Cart</h1>
+      <h1 className="name-Cart">Shopping Cart</h1>
+      </div>
 
       {cartItems.length === 0 ? (
         <p>The shopping cart is empty</p>
@@ -107,16 +111,17 @@ export function Cart() {
           <div className="cart-items">
             {cartItems.map((item) => (
               <div className="cart-item" key={item.id}>
-                {/* سمت راست */}
+                
+                  <div className="asle-cart">
                 <div className="cart-product">
                   <img src={item.image} alt={item.name} />
                   <div>
-                    <h3>{item.name}</h3>
-                    <p>{item.price.toLocaleString()}</p>
+                    <h2>{item.name}</h2>
+                    <h3>{item.price.toLocaleString()}</h3>
                   </div>
                 </div>
 
-                {/* سمت چپ */}
+                
                 <div className="cart-quantity">
                   <button onClick={() => decreaseQuantity(item.id)}>
                     −
@@ -130,10 +135,11 @@ export function Cart() {
                   </button>
                 </div>
               </div>
+              </div>
             ))}
           </div>
 
-          {/* پایین سبد */}
+          
           <div className="cart-bottom">
             <div className="cart-total">
               <span>Total:</span>
