@@ -142,11 +142,11 @@ export function Cart() {
           
           <div className="cart-bottom">
             <div className="cart-total">
-              <span>Total:</span>
-              <strong>{totalPrice.toLocaleString()} USD</strong>
+              <span className="total">Total:</span>
+              <strong className="USD">{totalPrice.toLocaleString()} USD</strong>
             </div>
 
-            <button className="checkout-button">ادامه پرداخت</button>
+            <button className="checkout-button">Continue to payment</button>
           </div>
         </>
       )}
