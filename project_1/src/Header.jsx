@@ -38,10 +38,14 @@ function Header({ search, setSearch }) {
         <img className='imgshop' src={shopimg} alt="img-web" />
       </div>
 
+       <div className="auth-hed">
+
       <Link to="/auth" className="auth-btn">
-        <User size={16} />
-        <span>ثبت‌نام / ورود</span>
+        <User size={25} />
+        <span></span>
       </Link>
+
+       </div>
 
       <Link to="/cart" className="cart-icon-wrapper">
         <img className="cart-icon" src={carticon} alt="cart" />

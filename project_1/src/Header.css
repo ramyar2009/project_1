@@ -86,3 +86,13 @@ header{
   border-radius: 50%;
   border: 2px solid white;
 }
+
+.auth-btn{
+    color: #525050;
+    margin-right: auto;
+}
+
+.auth-hed{
+    background-color:#ccc;
+    margin-top: 5px;
+}

@@ -1,4 +1,4 @@
-/* ---------- انیمیشن‌های پایه ---------- */
+/* ---------- base animations ---------- */
 @keyframes fadeInUp {
   from { opacity: 0; transform: translateY(28px); }
   to { opacity: 1; transform: translateY(0); }
@@ -48,7 +48,7 @@
 }
 
 /* ============================================================================
-   AuthPage.css — استایل کامپوننت ثبت‌نام / ورود
+   AuthPage.css — Signup / Login component styles
    ============================================================================ */
 
 .auth-page {
@@ -67,7 +67,42 @@
   animation: fadeInUp 0.5s cubic-bezier(0.22, 1, 0.36, 1) both;
 }
 
-/* ---------- هدر بالای کارت ---------- */
+.back-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 13px;
+  color: #404040;
+  text-decoration: none;
+  background-color: #eeeeee;
+  border-radius: 999px;
+  padding: 8px 16px;
+  transition: background-color 0.2s ease, color 0.2s ease, gap 0.2s ease;
+}
+
+.back-btn:hover {
+  color: #000;
+  background-color: #e2e2e2;
+  gap: 9px;
+}
+
+.auth-topbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-bottom: 16px;
+  margin-bottom: 32px;
+  border-bottom: 1px solid #e5e5e5;
+}
+
+.auth-topbar-brand {
+  font-size: 15px;
+  font-weight: 300;
+  letter-spacing: 0.25em;
+  color: #000;
+}
+
+/* ---------- header above the card ---------- */
 .auth-header {
   text-align: center;
   margin-bottom: 40px;
@@ -94,7 +129,7 @@
   margin-top: 8px;
 }
 
-/* ---------- کارت اصلی ---------- */
+/* ---------- main card ---------- */
 .auth-card {
   background-color: #fff;
   border: 1px solid #e5e5e5;
@@ -108,7 +143,7 @@
   transform: translateY(-3px);
 }
 
-/* ---------- تب‌های ثبت‌نام / ورود ---------- */
+/* ---------- sign up / sign in tabs ---------- */
 .auth-tabs {
   display: grid;
   grid-template-columns: 1fr 1fr;
@@ -154,7 +189,7 @@
   transform: scale(0.98);
 }
 
-/* ---------- فرم ---------- */
+/* ---------- form ---------- */
 .auth-form {
   display: flex;
   flex-direction: column;
@@ -176,7 +211,7 @@
 .auth-form > *:nth-child(9) { animation-delay: 0.34s; }
 .auth-form > *:nth-child(10) { animation-delay: 0.38s; }
 
-/* ---------- فیلدهای ورودی (نام، ایمیل، رمز و ...) ---------- */
+/* ---------- input fields (name, email, password, etc.) ---------- */
 .field-box {
   display: flex;
   align-items: center;
@@ -243,7 +278,7 @@
   margin-top: -8px;
 }
 
-/* ---------- چک‌باکس حریم خصوصی ---------- */
+/* ---------- privacy policy checkbox ---------- */
 .checkbox-row {
   display: flex;
   align-items: flex-start;
@@ -280,7 +315,7 @@
   opacity: 0.6;
 }
 
-/* ---------- دکمه اصلی مشکی ---------- */
+/* ---------- main black button ---------- */
 .btn-primary {
   width: 100%;
   background-color: #000;
@@ -316,7 +351,7 @@
   margin-top: 16px;
 }
 
-/* ---------- پیام‌های عمومی ---------- */
+/* ---------- general messages ---------- */
 .general-error {
   font-size: 12px;
   color: #ef4444;
@@ -344,7 +379,7 @@
   color: #737373;
 }
 
-/* ---------- لینک‌های ساده (بازگشت، تغییر رمز) ---------- */
+/* ---------- simple links (back, change password) ---------- */
 .link-btn {
   background: none;
   border: none;
@@ -374,7 +409,7 @@
   margin-top: 8px;
 }
 
-/* ---------- کد امنیتی (کپچا) ---------- */
+/* ---------- security code (captcha) ---------- */
 .captcha-row {
   display: flex;
   align-items: center;
@@ -439,7 +474,7 @@
   transition: transform 0.4s cubic-bezier(0.22, 1, 0.36, 1);
 }
 
-/* ---------- صفحه تمام‌صفحه تایید کد پیامکی (OTP) ---------- */
+/* ---------- full-screen SMS verification (OTP) screen ---------- */
 .otp-overlay {
   position: fixed;
   inset: 0;
@@ -528,7 +563,7 @@
   margin: 0 auto;
 }
 
-/* ---------- پایان موفق فراموشی رمز عبور ---------- */
+/* ---------- successful password-reset completion ---------- */
 .forgot-done {
   text-align: center;
   padding: 24px 0;
@@ -551,7 +586,7 @@
   margin-bottom: 4px;
 }
 
-/* ---------- مودال حریم خصوصی ---------- */
+/* ---------- privacy policy modal ---------- */
 .modal-overlay {
   position: fixed;
   inset: 0;

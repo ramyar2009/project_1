@@ -10,12 +10,12 @@
   background: #ffffff;
   border-radius: 16px;
   padding: 20px;
-  box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.1);
   transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
 
 .product:hover {
-  transform: translateY(-5px);
+  transform: translateY(-10px);
   box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
 }
 
@@ -28,9 +28,14 @@
   box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
 }
 
+.product h1{
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
 .product h2 {
   margin: 15px 0 10px;
   font-size: 20px;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 
 .product p {

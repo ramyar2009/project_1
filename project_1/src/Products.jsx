@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { useCart } from "./Cart"; // مسیر فایلی که CartContext توشه
+import { useCart } from "./Cart"; 
 import "./Products.css";
 
 function Products({ search }) {
@@ -12,8 +12,6 @@ function Products({ search }) {
       const data = await response.json();
       setProducts(data);
     }
-    // وقتی API آماده شد این قسمت استفاده می‌شود
-    // getProducts();
   }, []);
 
   if (search === "") {

@@ -2,10 +2,8 @@ import { createContext, useContext, useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import "./Cart.css"
 
-// ۱. Context باید ساخته بشه
 const CartContext = createContext();
 
-// ۲. Provider — این باید بالای App یا هرجا Cart استفاده میشه بپیچه
 export function CartProvider({ children }) {
   const [cartItems, setCartItems] = useState([]);
   const [hasNewItem, setHasNewItem] = useState(false);
@@ -71,10 +69,8 @@ export function CartProvider({ children }) {
   );
 }
 
-// ۳. هوک برای دسترسی راحت به context
 export const useCart = () => useContext(CartContext);
 
-// ۴. کامپوننت صفحه‌ی سبد خرید (همون چیزی که در روت /cart نشون داده میشه)
 export function Cart() {
   const navigate = useNavigate();
   const {
@@ -84,7 +80,6 @@ export function Cart() {
     clearNewItemFlag
   } = useCart();
 
-  // به محض ورود کاربر به صفحه سبد، نقطه قرمز محو میشه
   useEffect(() => {
     clearNewItemFlag();
   }, []);

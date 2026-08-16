@@ -1,4 +1,5 @@
 import React, { useState, useCallback } from "react";
+import { Link, useNavigate } from "react-router-dom";
 import {
   User,
   Mail,
@@ -14,21 +15,7 @@ import {
 } from "lucide-react";
 import "./AuthPage.css";
 
-/**
- * ============================================================================
- * AuthPage — Signup / Login component
- * ============================================================================
- * این کامپوننت مستقل است (نه در صفحه اصلی رندر می‌شود) و باید از طریق یک
- * دکمه در هدر و یک روت جدا (مثلاً /auth) با react-router-dom بارگذاری شود:
- *
- *   <Route path="/auth" element={<AuthPage />} />
- *
- * تمام تماس‌های شبکه‌ای اینجا mock هستند و با کامنت "TODO: API" مشخص شده‌اند.
- * فقط کافیست fetch/axios واقعی خودتان را جایگزین کنید.
- * ============================================================================
- */
 
-// ---------- کمکی: تولید کد امنیتی (کپچا) ----------
 const CAPTCHA_CHARS = "ABCDEFGHJKMNPQRSTUVWXYZ23456789";
 function generateCaptcha(length = 5) {
   let out = "";
@@ -38,43 +25,54 @@ function generateCaptcha(length = 5) {
   return out;
 }
 
-// ---------- کمکی: اعتبارسنجی ساده ----------
+
 const isEmail = (v) => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v);
 const isPhone = (v) => /^09\d{9}$/.test(v);
+
+
+const FAKE_USERNAME = "test";
+const FAKE_PASSWORD = "123456";
 
 export default function AuthPage() {
   const [mode, setMode] = useState("signup"); // 'signup' | 'login'
   const [justRegistered, setJustRegistered] = useState(false);
 
   return (
-    <div dir="rtl" className="auth-page">
+    <div dir="ltr" className="auth-page">
       <div className="auth-wrapper">
+        <div className="auth-topbar">
+          <Link to="/" className="back-btn">
+            <ArrowRight size={16} />
+            Back to shop
+          </Link>
+          <span className="auth-topbar-brand">SHOP</span>
+        </div>
+
         <div className="auth-header">
-          <p className="auth-eyebrow">فروشگاه</p>
           <h1 className="auth-title">
-            {mode === "signup" ? "ایجاد حساب" : "ورود به حساب"}
+            {mode === "signup" ? "Create account" : "Sign in"}
           </h1>
           <p className="auth-subtitle">
             {mode === "signup"
-              ? "چند قدم ساده تا شروع خرید"
-              : "خوش برگشتی، اطلاعات خود را وارد کنید"}
+              ? "A few simple steps to start shopping"
+              : "Welcome back, enter your details"}
           </p>
         </div>
 
         <div className="auth-card">
-          {/* تب‌های جابجایی بین ثبت‌نام و ورود */}
+          
           <div className="auth-tabs">
             <button
               onClick={() => setMode("signup")}
               className={`auth-tab ${mode === "signup" ? "active" : ""}`}
             >
-              ثبت‌نام
+              Sign up
             </button>
             <button
               onClick={() => setMode("login")}
               className={`auth-tab ${mode === "login" ? "active" : ""}`}
             >
-              ورود
+              Sign in
             </button>
           </div>
 
@@ -94,9 +92,6 @@ export default function AuthPage() {
   );
 }
 
-/* ============================================================================
- * فلوی ثبت‌نام: فرم -> تایید پیامکی -> اتمام
- * ========================================================================== */
 function SignupFlow({ onSuccess }) {
   const [step, setStep] = useState("form"); // 'form' | 'otp'
   const [form, setForm] = useState({
@@ -123,7 +118,6 @@ function SignupFlow({ onSuccess }) {
       [key]: e.target.type === "checkbox" ? e.target.checked : e.target.value,
     }));
 
-  // آیا هیچ‌کدام از فیلدهای اصلی پر نشده‌اند؟ (برای پیام کلی «فرم خالی است»)
   const isFormEmpty =
     !form.firstName.trim() &&
     !form.lastName.trim() &&
@@ -132,22 +126,22 @@ function SignupFlow({ onSuccess }) {
 
   function validateForm() {
     const e = {};
-    if (!form.firstName.trim()) e.firstName = "نام را وارد کنید";
-    if (!form.lastName.trim()) e.lastName = "نام خانوادگی را وارد کنید";
-    if (!isEmail(form.email)) e.email = "ایمیل معتبر نیست";
-    if (!isPhone(form.phone)) e.phone = "شماره موبایل معتبر نیست (مثال: 0912xxxxxxx)";
-    if (form.password.length < 8) e.password = "رمز عبور باید حداقل ۸ کاراکتر باشد";
-    if (form.confirmPassword !== form.password) e.confirmPassword = "رمز عبور و تکرار آن یکسان نیستند";
-    if (form.captchaInput.trim().toUpperCase() !== captcha) e.captcha = "کد امنیتی درست نیست";
-    if (!form.acceptPrivacy) e.acceptPrivacy = "برای ادامه باید حریم خصوصی را تایید کنید";
+    if (!form.firstName.trim()) e.firstName = "Please enter your first name";
+    if (!form.lastName.trim()) e.lastName = "Please enter your last name";
+    if (!isEmail(form.email)) e.email = "Invalid email address";
+    if (!isPhone(form.phone)) e.phone = "Invalid phone number (example: 0912xxxxxxx)";
+    if (form.password.length < 8) e.password = "Password must be at least 8 characters";
+    if (form.confirmPassword !== form.password) e.confirmPassword = "Passwords do not match";
+    if (form.captchaInput.trim().toUpperCase() !== captcha) e.captcha = "Security code is incorrect";
+    if (!form.acceptPrivacy) e.acceptPrivacy = "You must accept the privacy policy to continue";
     return e;
   }
 
   async function handleContinue() {
-    // اگر کاربر هیچ‌چیز وارد نکرده، فقط یک پیام کلی در پایین فرم نشان بده
+
     if (isFormEmpty) {
       setErrors({});
-      setGeneralError("فرم خالی است");
+      setGeneralError("The form is empty");
       return;
     }
 
@@ -160,8 +154,7 @@ function SignupFlow({ onSuccess }) {
     }
     setGeneralError("");
     setSubmitting(true);
-    // TODO: API - درخواست ارسال کد تایید به شماره موبایل کاربر
-    // await fetch('/api/auth/send-otp', { method: 'POST', body: JSON.stringify({ phone: form.phone }) })
+
     await new Promise((r) => setTimeout(r, 500));
     setSubmitting(false);
     setStep("otp");
@@ -169,11 +162,10 @@ function SignupFlow({ onSuccess }) {
 
   async function handleVerified() {
     setSubmitting(true);
-    // TODO: API - ارسال نهایی اطلاعات ثبت‌نام پس از تایید موبایل
-    // await fetch('/api/auth/register', { method: 'POST', body: JSON.stringify(form) })
+
     await new Promise((r) => setTimeout(r, 600));
     setSubmitting(false);
-    // ثبت‌نام کامل شد؛ کاربر به تب ورود منتقل می‌شود تا خودش نام کاربری/رمز را وارد کند
+
     onSuccess();
   }
 
@@ -192,21 +184,21 @@ function SignupFlow({ onSuccess }) {
     <div className="auth-form">
       <TextField
         icon={<User size={18} />}
-        placeholder="نام"
+        placeholder="First name"
         value={form.firstName}
         onChange={set("firstName")}
         error={errors.firstName}
       />
       <TextField
         icon={<User size={18} />}
-        placeholder="نام خانوادگی"
+        placeholder="Last name"
         value={form.lastName}
         onChange={set("lastName")}
         error={errors.lastName}
       />
       <TextField
         icon={<Mail size={18} />}
-        placeholder="ایمیل"
+        placeholder="Email"
         type="email"
         value={form.email}
         onChange={set("email")}
@@ -214,19 +206,19 @@ function SignupFlow({ onSuccess }) {
       />
       <TextField
         icon={<Phone size={18} />}
-        placeholder="شماره موبایل (09xxxxxxxxx)"
+        placeholder="Phone number (09xxxxxxxxx)"
         value={form.phone}
         onChange={set("phone")}
         error={errors.phone}
       />
       <PasswordField
-        placeholder="رمز عبور"
+        placeholder="Password"
         value={form.password}
         onChange={set("password")}
         error={errors.password}
       />
       <PasswordField
-        placeholder="تکرار رمز عبور"
+        placeholder="Confirm password"
         value={form.confirmPassword}
         onChange={set("confirmPassword")}
         error={errors.confirmPassword}
@@ -252,9 +244,9 @@ function SignupFlow({ onSuccess }) {
             onClick={() => setShowPrivacy(true)}
             className="privacy-link"
           >
-            حریم خصوصی
+            Privacy Policy
           </button>{" "}
-          را مطالعه کردم و می‌پذیرم
+          and agree to it
         </span>
       </label>
       {errors.acceptPrivacy && (
@@ -266,7 +258,7 @@ function SignupFlow({ onSuccess }) {
         onClick={handleContinue}
         className="btn-primary"
       >
-        {submitting ? "در حال ارسال..." : "ادامه"}
+        {submitting ? "Sending..." : "Continue"}
       </button>
 
       {generalError && <p className="general-error">{generalError}</p>}
@@ -276,18 +268,16 @@ function SignupFlow({ onSuccess }) {
   );
 }
 
-/* ---------- صفحه/دیو تمام‌صفحه تایید کد پیامکی ---------- */
 function OtpFullScreen({ phone, onBack, onVerified, submitting }) {
   const [code, setCode] = useState("");
   const [error, setError] = useState("");
-  // در دنیای واقعی کد صحیح روی سرور است؛ اینجا فقط برای دمو شبیه‌سازی شده
+ 
   const [serverCode] = useState(() => String(Math.floor(1000 + Math.random() * 9000)));
 
   async function handleVerify() {
-    // TODO: API - بررسی کد پیامکی وارد شده در سمت سرور
-    // const res = await fetch('/api/auth/verify-otp', { method: 'POST', body: JSON.stringify({ phone, code }) })
+
     if (code.trim() !== serverCode) {
-      setError("کد وارد شده صحیح نیست");
+      setError("The code you entered is incorrect");
       return;
     }
     setError("");
@@ -295,16 +285,15 @@ function OtpFullScreen({ phone, onBack, onVerified, submitting }) {
   }
 
   return (
-    <div className="otp-overlay" dir="rtl">
+    <div className="otp-overlay" dir="ltr">
       <div className="otp-box">
         <div className="otp-icon-circle">
           <Phone size={22} />
         </div>
-        <h2 className="otp-title">کد تایید را وارد کنید</h2>
-        <p className="otp-subtitle">کد ۴ رقمی به شماره {phone || "شما"} پیامک شد</p>
+        <h2 className="otp-title">Enter the verification code</h2>
+        <p className="otp-subtitle">A 4-digit code was sent to {phone || "your phone"}</p>
 
-        {/* فقط برای دمو نمایش داده می‌شود؛ در نسخه واقعی حذف کنید */}
-        <p className="demo-code-note">کد آزمایشی: {serverCode}</p>
+        <p className="demo-code-note">Demo code: {serverCode}</p>
 
         <input
           value={code}
@@ -320,19 +309,16 @@ function OtpFullScreen({ phone, onBack, onVerified, submitting }) {
           onClick={handleVerify}
           className="btn-primary"
         >
-          {submitting ? "در حال بررسی..." : "تایید کد"}
+          {submitting ? "Checking..." : "Verify code"}
         </button>
         <button onClick={onBack} className="link-btn">
-          <ArrowRight size={16} /> بازگشت و ویرایش اطلاعات
+          <ArrowRight size={16} /> Back and edit details
         </button>
       </div>
     </div>
   );
 }
 
-/* ============================================================================
- * فلوی ورود: فرم ورود -> (در صورت نیاز) فراموشی رمز عبور
- * ========================================================================== */
 function LoginFlow({ justRegistered }) {
   const [step, setStep] = useState("login"); // login | forgot-contact | forgot-otp | forgot-newpass | forgot-done
   const [username, setUsername] = useState("");
@@ -340,24 +326,23 @@ function LoginFlow({ justRegistered }) {
   const [error, setError] = useState("");
   const [wrongPassword, setWrongPassword] = useState(false);
   const [submitting, setSubmitting] = useState(false);
+  const navigate = useNavigate();
 
   async function handleLogin() {
     setSubmitting(true);
     setError("");
     setWrongPassword(false);
-    // TODO: API - بررسی نام کاربری و رمز عبور
-    // const res = await fetch('/api/auth/login', { method: 'POST', body: JSON.stringify({ username, password }) })
+
     await new Promise((r) => setTimeout(r, 500));
     setSubmitting(false);
 
-    // --- دمو: هر مقدار غیرخالی را نادرست در نظر می‌گیریم تا رفتار خطا دیده شود
-    const success = false; // این مقدار را با نتیجه واقعی API جایگزین کنید
+    const success = username === FAKE_USERNAME && password === FAKE_PASSWORD;
     if (!success) {
-      setError("نام کاربری یا رمز عبور اشتباه است");
+      setError("Username or password is incorrect");
       setWrongPassword(true);
+      return;
     }
-    // در صورت موفقیت: هدایت به کامپوننت/صفحه دوم (پنل کاربری)
-    // navigate('/dashboard')
+    navigate("/dashboard");
   }
 
   if (step === "forgot-contact" || step === "forgot-otp" || step === "forgot-newpass" || step === "forgot-done") {
@@ -375,17 +360,20 @@ function LoginFlow({ justRegistered }) {
       {justRegistered && (
         <div className="success-note">
           <CheckCircle2 size={16} />
-          ثبت‌نام با موفقیت انجام شد، حالا وارد شوید
+          Account created successfully, now sign in
         </div>
       )}
+      <p className="demo-code-note">
+        Demo account — username: {FAKE_USERNAME} / password: {FAKE_PASSWORD}
+      </p>
       <TextField
         icon={<User size={18} />}
-        placeholder="نام کاربری"
+        placeholder="Username"
         value={username}
         onChange={(e) => setUsername(e.target.value)}
       />
       <PasswordField
-        placeholder="رمز عبور"
+        placeholder="Password"
         value={password}
         onChange={(e) => setPassword(e.target.value)}
       />
@@ -397,19 +385,18 @@ function LoginFlow({ justRegistered }) {
         onClick={handleLogin}
         className="btn-primary"
       >
-        {submitting ? "در حال ورود..." : "ورود"}
+        {submitting ? "Signing in..." : "Sign in"}
       </button>
 
       {wrongPassword && (
         <button onClick={() => setStep("forgot-contact")} className="link-btn center">
-          تغییر رمز عبور
+          Change password
         </button>
       )}
     </div>
   );
 }
 
-/* ---------- فراموشی / تغییر رمز عبور ---------- */
 function ForgotPasswordFlow({ step, setStep, onFinished }) {
   const [contact, setContact] = useState("");
   const [code, setCode] = useState("");
@@ -421,22 +408,19 @@ function ForgotPasswordFlow({ step, setStep, onFinished }) {
 
   async function sendCode() {
     if (!isEmail(contact) && !isPhone(contact)) {
-      setError("ایمیل یا شماره موبایل معتبر وارد کنید");
+      setError("Enter a valid email or phone number");
       return;
     }
     setError("");
     setSubmitting(true);
-    // TODO: API - ارسال کد بازیابی به ایمیل یا موبایل وارد شده
-    // await fetch('/api/auth/forgot-password', { method: 'POST', body: JSON.stringify({ contact }) })
     await new Promise((r) => setTimeout(r, 500));
     setSubmitting(false);
     setStep("forgot-otp");
   }
 
   function verifyCode() {
-    // TODO: API - بررسی کد بازیابی
     if (code.trim() !== serverCode) {
-      setError("کد وارد شده صحیح نیست");
+      setError("The code you entered is incorrect");
       return;
     }
     setError("");
@@ -445,17 +429,15 @@ function ForgotPasswordFlow({ step, setStep, onFinished }) {
 
   async function submitNewPassword() {
     if (newPassword.length < 8) {
-      setError("رمز عبور باید حداقل ۸ کاراکتر باشد");
+      setError("Password must be at least 8 characters");
       return;
     }
     if (newPassword !== confirmNewPassword) {
-      setError("رمز عبور و تکرار آن یکسان نیستند");
+      setError("Passwords do not match");
       return;
     }
     setError("");
     setSubmitting(true);
-    // TODO: API - جایگزینی رمز عبور قدیمی با رمز جدید
-    // await fetch('/api/auth/reset-password', { method: 'POST', body: JSON.stringify({ contact, code, newPassword }) })
     await new Promise((r) => setTimeout(r, 500));
     setSubmitting(false);
     setStep("forgot-done");
@@ -465,9 +447,9 @@ function ForgotPasswordFlow({ step, setStep, onFinished }) {
     return (
       <div className="forgot-done">
         <CheckCircle2 className="forgot-done-icon" size={44} />
-        <h3 className="forgot-done-title">رمز عبور با موفقیت تغییر کرد</h3>
+        <h3 className="forgot-done-title">Password changed successfully</h3>
         <button onClick={onFinished} className="btn-primary top-gap">
-          بازگشت به ورود
+          Back to sign in
         </button>
       </div>
     );
@@ -479,15 +461,15 @@ function ForgotPasswordFlow({ step, setStep, onFinished }) {
         onClick={() => (step === "forgot-contact" ? onFinished() : setStep("forgot-contact"))}
         className="link-btn"
       >
-        <ArrowRight size={16} /> بازگشت
+        <ArrowRight size={16} /> Back
       </button>
 
       {step === "forgot-contact" && (
         <>
-          <p className="helper-text">ایمیل یا شماره موبایل خود را وارد کنید</p>
+          <p className="helper-text">Enter your email or phone number</p>
           <TextField
             icon={<Mail size={18} />}
-            placeholder="ایمیل یا شماره موبایل"
+            placeholder="Email or phone number"
             value={contact}
             onChange={(e) => setContact(e.target.value)}
           />
@@ -497,15 +479,15 @@ function ForgotPasswordFlow({ step, setStep, onFinished }) {
             onClick={sendCode}
             className="btn-primary"
           >
-            {submitting ? "در حال ارسال..." : "ارسال کد"}
+            {submitting ? "Sending..." : "Send code"}
           </button>
         </>
       )}
 
       {step === "forgot-otp" && (
         <>
-          <p className="helper-text">کد ارسال‌شده به {contact} را وارد کنید</p>
-          <p className="demo-code-note">کد آزمایشی: {serverCode}</p>
+          <p className="helper-text">Enter the code sent to {contact}</p>
+          <p className="demo-code-note">Demo code: {serverCode}</p>
           <input
             value={code}
             onChange={(e) => setCode(e.target.value.replace(/\D/g, ""))}
@@ -515,7 +497,7 @@ function ForgotPasswordFlow({ step, setStep, onFinished }) {
           />
           {error && <p className="field-error">{error}</p>}
           <button disabled={code.length !== 4} onClick={verifyCode} className="btn-primary">
-            تایید کد
+            Verify code
           </button>
         </>
       )}
@@ -523,12 +505,12 @@ function ForgotPasswordFlow({ step, setStep, onFinished }) {
       {step === "forgot-newpass" && (
         <>
           <PasswordField
-            placeholder="رمز عبور جدید"
+            placeholder="New password"
             value={newPassword}
             onChange={(e) => setNewPassword(e.target.value)}
           />
           <PasswordField
-            placeholder="تکرار رمز عبور جدید"
+            placeholder="Confirm new password"
             value={confirmNewPassword}
             onChange={(e) => setConfirmNewPassword(e.target.value)}
           />
@@ -538,7 +520,7 @@ function ForgotPasswordFlow({ step, setStep, onFinished }) {
             onClick={submitNewPassword}
             className="btn-primary"
           >
-            {submitting ? "در حال ذخیره..." : "ثبت رمز جدید"}
+            {submitting ? "Saving..." : "Save new password"}
           </button>
         </>
       )}
@@ -546,9 +528,6 @@ function ForgotPasswordFlow({ step, setStep, onFinished }) {
   );
 }
 
-/* ============================================================================
- * کامپوننت‌های کمکی UI
- * ========================================================================== */
 function TextField({ icon, error, ...props }) {
   return (
     <div>
@@ -596,14 +575,14 @@ function CaptchaField({ captcha, value, onChange, onRefresh, error }) {
             </span>
           ))}
         </div>
-        <button type="button" onClick={onRefresh} className="captcha-refresh" title="کد جدید">
+        <button type="button" onClick={onRefresh} className="captcha-refresh" title="New code">
           <RefreshCw size={18} />
         </button>
       </div>
       <div className="top-gap-sm">
         <TextField
           icon={<ShieldCheck size={18} />}
-          placeholder="کد امنیتی را وارد کنید"
+          placeholder="Enter the security code"
           value={value}
           onChange={onChange}
         />
@@ -615,31 +594,31 @@ function CaptchaField({ captcha, value, onChange, onRefresh, error }) {
 
 function PrivacyModal({ onBack }) {
   return (
-    <div className="modal-overlay" dir="rtl">
+    <div className="modal-overlay" dir="ltr">
       <div className="modal-panel">
         <div className="modal-header">
-          <h3>حریم خصوصی</h3>
+          <h3>Privacy Policy</h3>
           <button onClick={onBack} className="modal-close">
             <X size={20} />
           </button>
         </div>
         <div className="modal-body">
           <p>
-            اطلاعات شخصی شما شامل نام، ایمیل و شماره موبایل تنها برای ایجاد و مدیریت
-            حساب کاربری، پردازش سفارش‌ها و اطلاع‌رسانی درباره وضعیت خرید استفاده می‌شود.
+            Your personal information, including name, email, and phone number, is used only to create and manage
+            your account, process orders, and notify you about your order status.
           </p>
           <p>
-            رمز عبور شما به‌صورت رمزنگاری‌شده ذخیره می‌شود و هیچ‌کس، از جمله کارکنان
-            ما، به آن دسترسی مستقیم ندارد.
+            Your password is stored encrypted, and no one, including our
+            staff, has direct access to it.
           </p>
           <p>
-            اطلاعات شما بدون رضایت شما در اختیار اشخاص ثالث قرار نمی‌گیرد، مگر در
-            مواردی که قانون الزام کند.
+            Your information is not shared with third parties without your consent, except where
+            required by law.
           </p>
         </div>
         <div className="modal-footer">
           <button onClick={onBack} className="btn-primary">
-            <ArrowRight size={18} /> بازگشت
+            <ArrowRight size={18} /> Back
           </button>
         </div>
       </div>
