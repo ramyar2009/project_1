@@ -1,45 +1,82 @@
-
 .products {
   display: grid;
-  grid-template-columns: repeat(4,1fr);
-  gap: 24px;
-  padding: 30px;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 28px;
+  padding: 36px 28px;
+  background-color: #fafaf9;
 }
 
 .product {
+  position: relative;
   background: #ffffff;
-  border-radius: 16px;
-  padding: 20px;
-  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.1);
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  border: 1px solid var(--line);
+  border-radius: 18px;
+  padding: 0 0 20px;
+  overflow: hidden;
+  box-shadow: 0 8px 24px rgba(24, 27, 41, 0.06);
+  transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
 }
 
 .product:hover {
-  transform: translateY(-10px);
-  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+  transform: translateY(-8px);
+  border-color: var(--accent);
+  box-shadow: 0 20px 44px rgba(79, 70, 229, 0.18);
+}
+
+/* کانتینر عکس با گرادیانت ملایم و زوم موقع هاور */
+.product::before {
+  content: "";
+  display: block;
+  height: 170px;
+  background: radial-gradient(circle at 30% 30%, #f2f2fb, #f7f7f6);
 }
 
 .product img {
-  display: flex;
-  width: 100%;
-  height: 140px;
+  display: block;
+  width: calc(100% - 32px);
+  height: 170px;
   object-fit: contain;
   border-radius: 12px;
-  box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+  margin: -170px 16px 16px;
+  position: relative;
+  transition: transform 0.4s ease;
 }
 
-.product h1{
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+.product:hover img {
+  transform: scale(1.08);
+}
+
+/* چیپ دسته‌بندی، گوشه‌ی بالای کارت */
+.product h1 {
+  position: absolute;
+  top: 14px;
+  left: 14px;
+  margin: 0;
+  padding: 4px 10px;
+  font-family: 'Inter', sans-serif;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+  color: var(--accent);
+  background: rgba(255, 255, 255, 0.9);
+  backdrop-filter: blur(4px);
+  border-radius: 20px;
+  z-index: 2;
 }
 
 .product h2 {
-  margin: 15px 0 10px;
-  font-size: 20px;
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  margin: 0 16px 8px;
+  font-size: 18px;
+  font-weight: 600;
+  font-family: 'Poppins', sans-serif;
+  color: var(--ink);
 }
 
 .product p {
-  margin: 0;
-  color: #666;
+  margin: 0 16px;
+  font-family: 'Inter', sans-serif;
+  color: var(--muted);
   line-height: 1.6;
+  font-size: 14px;
 }

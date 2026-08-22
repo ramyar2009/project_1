@@ -1,48 +1,21 @@
 import { useEffect, useState } from "react";
-import { useCart } from "./Cart"; 
+import { Link } from "react-router-dom";
+import { useCart } from "./Cart"; // path to the file where CartContext lives
+import { products as allProducts } from "./data";
 import "./Products.css";
 
 function Products({ search }) {
   const { cartItems, addToCart } = useCart();
-  const [products, setProducts] = useState([]);
 
+  // TODO: replace allProducts (from data.js) with a real API call once the
+  // backend is ready — keep the same shape (id, name, price, stock, image)
   useEffect(() => {
-    async function getProducts() {
-      const response = await fetch("API");
-      const data = await response.json();
-      setProducts(data);
-    }
+    // fetch("API").then(res => res.json()).then(setProducts) ...
   }, []);
 
   if (search === "") {
     return null;
   }
-
-  const fakeProducts = [
-    {
-      id: 101,
-      name: "iPhone 15 Pro",
-      price: 1200,
-      stock: 10,
-      image: "https://picsum.photos/300/200?random=1"
-    },
-    {
-      id: 102,
-      name: "MacBook Air M3",
-      price: 1500,
-      stock: 5,
-      image: "https://picsum.photos/300/200?random=2"
-    },
-    {
-      id: 103,
-      name: "Samsung Galaxy S24",
-      price: 900,
-      stock: 8,
-      image: "https://picsum.photos/300/200?random=3"
-    }
-  ];
-
-  const allProducts = [...fakeProducts];
 
   const filteredProducts = allProducts.filter((product) =>
     product.name.toLowerCase().includes(search.toLowerCase())
@@ -56,9 +29,11 @@ function Products({ search }) {
 
         return (
           <div className="product" key={p.id}>
-            <img src={p.image} alt={p.name} />
-            <h2>{p.name}</h2>
-            <h3>{p.price.toLocaleString()}</h3>
+            <Link to={`/product/${p.id}`} className="product-link">
+              <img src={p.image} alt={p.name} />
+              <h2>{p.name}</h2>
+              <h3>{p.price.toLocaleString()}</h3>
+            </Link>
 
             <div className="product-actions">
               <button
@@ -66,12 +41,12 @@ function Products({ search }) {
                 onClick={() => addToCart(p)}
                 disabled={cartQuantity >= p.stock}
               >
-                🛒
+                add to cart
               </button>
 
               {cartQuantity > 0 && (
                 <span className="added-count">
-                  {cartQuantity} عدد در سبد
+                  {cartQuantity} Add
                 </span>
               )}
             </div>

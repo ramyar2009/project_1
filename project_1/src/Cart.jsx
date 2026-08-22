@@ -1,9 +1,11 @@
 import { createContext, useContext, useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 import "./Cart.css"
 
+// 1. Create the context
 const CartContext = createContext();
 
+// 2. Provider — wraps App (or wherever Cart is used)
 export function CartProvider({ children }) {
   const [cartItems, setCartItems] = useState([]);
   const [hasNewItem, setHasNewItem] = useState(false);
@@ -69,8 +71,10 @@ export function CartProvider({ children }) {
   );
 }
 
+// 3. Hook for easy access to the context
 export const useCart = () => useContext(CartContext);
 
+// 4. The Cart page component (rendered at the /cart route)
 export function Cart() {
   const navigate = useNavigate();
   const {
@@ -80,6 +84,7 @@ export function Cart() {
     clearNewItemFlag
   } = useCart();
 
+  // clear the red-dot badge as soon as the user opens the cart
   useEffect(() => {
     clearNewItemFlag();
   }, []);
@@ -94,7 +99,7 @@ export function Cart() {
 
       <div className="nameclick">
       <button className="back-button" onClick={() => navigate("/")}>
-        ← comeback
+        ← Back
       </button>
       <h1 className="name-Cart">Shopping Cart</h1>
       </div>
@@ -106,17 +111,17 @@ export function Cart() {
           <div className="cart-items">
             {cartItems.map((item) => (
               <div className="cart-item" key={item.id}>
-                
+
                   <div className="asle-cart">
-                <div className="cart-product">
+                <Link to={`/product/${item.id}`} className="cart-product">
                   <img src={item.image} alt={item.name} />
                   <div>
                     <h2>{item.name}</h2>
                     <h3>{item.price.toLocaleString()}</h3>
                   </div>
-                </div>
+                </Link>
 
-                
+
                 <div className="cart-quantity">
                   <button onClick={() => decreaseQuantity(item.id)}>
                     −
@@ -134,7 +139,7 @@ export function Cart() {
             ))}
           </div>
 
-          
+
           <div className="cart-bottom">
             <div className="cart-total">
               <span className="total">Total:</span>

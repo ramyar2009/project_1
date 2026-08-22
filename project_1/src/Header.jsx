@@ -70,9 +70,11 @@ function Header({ search, setSearch }) {
           </div>
 
           <ul className="header-badges">
+            <li>leaveacomment</li>
+            <li>about</li>
+            <li>rules</li>
+            <li>broducts</li>
             <li>blog</li>
-            <li>Rules</li>
-            <li></li>
           </ul>
         </div>
 

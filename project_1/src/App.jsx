@@ -1,9 +1,10 @@
 import { useState } from "react";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { BrowserRouter, Routes, Route , Link } from "react-router-dom";
 import { CartProvider , Cart } from "./Cart";
 import Header from "./Header";
 import Products from "./Products";
 import AuthPage from "./AuthPage";
+import ProductDetail from "./ProductDetail"
 
 function App() {
   const [search, setSearch] = useState("");
@@ -19,7 +20,8 @@ function App() {
             element={<Products search={search} />}
           />
           <Route path="/cart" element={<Cart />} />
-          <Route path="/auth" element={<AuthPage/>} />
+          <Route path="/auth" element={<AuthPage/>}/>
+          <Route path="/product/:productId" element={<ProductDetail/>} />
         </Routes>
       </BrowserRouter>
     </CartProvider>
